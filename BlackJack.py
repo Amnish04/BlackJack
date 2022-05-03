@@ -143,7 +143,7 @@ def bet_choice(_player):
     _bet = 0
     while True:
         try:
-            print(f"How much do you want to put on stake {player.name}?\nYou currently have {_player.money} coins.")
+            print(f"\nHow much do you want to put on stake {player.name}?\nYou currently have {_player.money} coins.")
             engine.say(f"How much do you want to put on stake {player.name}?\nYou currently have {_player.money} coins.")
             engine.runAndWait()
             _bet = int(input())
@@ -154,7 +154,7 @@ def bet_choice(_player):
                 continue
             else:
                 if _bet > _player.money:
-                    print("Not enough money!")
+                    print("Not enough money!\n")
                     engine.say("Not enough money!")
                     engine.runAndWait()
                     continue
@@ -184,9 +184,10 @@ rounds = 0
 game_on = 1
 player_money = 1000
 
+print("Welcome to BlackJack!\nPlease enter your name: ")
 engine.say("Welcome to BlackJack, Please enter your name")
 engine.runAndWait()
-player_name = input("Welcome to BlackJack!\nPlease enter your name: ")
+player_name = input()
 
 while game_on:
     game_deck = Deck(suits, ranks)
@@ -248,20 +249,29 @@ while game_on:
 
         if win == 1:
             print(f"{player.name} Wins!")
+            engine.say("{player.name} Wins!")
+            engine.runAndWait()
             print(f"{player.name} Deck: {list(map(str,player.hand))},Dealer Deck: {list(map(str,computer.hand))}")
             player_money += 2*bet
         elif win == 2:
             print("TIE GAME!\n Both dealer and player on 21.")
+            engine.say("TIE GAME!\n Both dealer and player on 21.")
+            engine.runAndWait()
             print(f"{player.name} Deck: {list(map(str, player.hand))},Dealer Deck: {list(map(str, computer.hand))}")
             player_money += bet
         else:
             print(f"{player.name} Deck: {list(map(str, player.hand))},Dealer Deck: {list(map(str, computer.hand))}")
-            print("You Lose!")
             if player_money < 50:
                 print("You have gone bankrupt!\n*GAME OVER*")
+                engine.say("You have gone bankrupt!\n*GAME OVER*")
+                engine.runAndWait()
                 pauseExecution()
                 game_on = 0
                 break
+            else:
+                print("You Lose!\n*GAME OVER*")
+                engine.say("You Lose!  *GAME OVER*")
+                engine.runAndWait()
     if game_on:
         if replay_choice() == "no":
             game_on = 0
